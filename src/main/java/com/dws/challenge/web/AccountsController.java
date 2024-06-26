@@ -43,7 +43,11 @@ public class AccountsController {
     } catch (DuplicateAccountIdException daie) {
       return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
+catch (Exception e) {
+		// TODO: handle exception
+    	log.error("Acount creation failed");
+	}
+    
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
