@@ -44,7 +44,6 @@ public class AccountsController {
       return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
     }
 catch (Exception e) {
-		// TODO: handle exception
     	log.error("Acount creation failed");
 	}
     
