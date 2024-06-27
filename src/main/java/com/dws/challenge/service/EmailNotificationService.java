@@ -13,10 +13,5 @@ public class EmailNotificationService implements NotificationService {
       .info("Sending notification to owner of {}: {}", account.getAccountId(), transferDescription);
   }
 
-@Override
-public void notify(String accountId, String string) {
-	// TODO Auto-generated method stub
-	
-}
 
 }

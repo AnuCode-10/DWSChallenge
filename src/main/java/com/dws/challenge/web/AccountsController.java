@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dws.challenge.domain.Account;
+import com.dws.challenge.domain.TransferRequest;
 import com.dws.challenge.exception.DuplicateAccountIdException;
 import com.dws.challenge.service.AccountsService;
 import com.dws.challenge.service.TransferService;
@@ -32,7 +33,7 @@ public class AccountsController {
   @Autowired
   public AccountsController(AccountsService accountsService) {
     this.accountsService = accountsService;
-  }
+  } 
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> createAccount(@RequestBody @Valid Account account) {
@@ -43,6 +44,12 @@ public class AccountsController {
     } catch (DuplicateAccountIdException daie) {
       return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    
+    catch (Exception e) {
+		// TODO: handle exception
+    	log.error("Acount creation failed");
+	}
+    
 
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
@@ -55,24 +62,15 @@ public class AccountsController {
   @Autowired
   private TransferService transferService;
   
-  @PostMapping("/transfer")
-  public ResponseEntity<String> transferMoney(@RequestParam Long accountSenderId,
-                                              @RequestParam Long accountReceiverId,
-                                              @RequestParam BigDecimal amount) {
-      transferService.transfer(accountSenderId, accountReceiverId, amount);
-      return ResponseEntity.ok("Transfer successful");
-  }
 
   
-  
-  
-//  @PostMapping("/transfer")
-//  public ResponseEntity<String> transferMoney(@RequestBody TransferRequest transferRequest) {
-//      transferService.transfer(transferRequest.getAccountFrom(), 
-//                               transferRequest.getAccountTo(), 
-//                               transferRequest.getAmount());
-//      return ResponseEntity.ok("Transfer successful.");
-//  }
+  @PostMapping("/transfer")
+  public ResponseEntity<String> transferMoney(@RequestBody TransferRequest transferRequest) {
+      transferService.transfer(transferRequest.getAccountSenderId(), 
+                               transferRequest.getAccountReceiverId(), 
+                               transferRequest.getAmount());
+      return ResponseEntity.ok("Transfer successful.");
+  }
 }
 
 

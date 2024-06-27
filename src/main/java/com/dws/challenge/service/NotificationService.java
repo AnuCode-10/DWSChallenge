@@ -6,5 +6,5 @@ public interface NotificationService {
 
   void notifyAboutTransfer(Account account, String transferDescription);
 
-void notify(String accountId, String string);
+
 }
